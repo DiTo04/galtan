@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"encoding/json"
 	"os"
+	"time"
 )
 
 var (
@@ -21,6 +22,16 @@ type politicalView struct {
 type payload struct {
 	PoliticalViews map[string]politicalView `json:"political_views"`
 	UserChoice     string                   `json:"user_choice"`
+	TimeStamp      JSONTime					`json:"time_stamp"`
+}
+
+type JSONTime struct {
+	time.Time
+}
+
+func (t JSONTime)MarshalJSON() ([]byte, error) {
+	stamp := fmt.Sprintf("\"%s\"", t.Format(time.RFC3339))
+	return []byte(stamp), nil
 }
 
 type ResultStore interface {
@@ -39,6 +50,7 @@ func main() {
 	router.HandleFunc("/healthz", allIsOkey)
 	http.ListenAndServe("0.0.0.0:" + PORT, router)
 }
+
 func getResultsHandler(store ResultStore) func(http.ResponseWriter, *http.Request) {
 	return func(writer http.ResponseWriter, request *http.Request) {
 		data, err := store.getAll()
@@ -57,6 +69,7 @@ func postResultHandler(resultStore ResultStore) func (w http.ResponseWriter, r *
 	return func(w http.ResponseWriter, r *http.Request) {
 		payLoad := payload{}
 		json.NewDecoder(r.Body).Decode(&payLoad)
+		payLoad.TimeStamp = JSONTime{time.Now()}
 		fmt.Printf("%+v\n", payLoad)
 		err := resultStore.save(payLoad)
 		if err != nil {
