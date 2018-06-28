@@ -23,6 +23,11 @@ type payload struct {
 	UserChoice     string                   `json:"user_choice"`
 }
 
+type ResultStore interface {
+	save(payload payload) error
+	getAll() ([]payload, error)
+}
+
 func main() {
 	router := mux.NewRouter()
 	store := NewResultStore(STORAGE_FILE)
@@ -30,16 +35,22 @@ func main() {
 		Methods("POST").
 		Path("/results").
 		HandlerFunc(postResultHandler(store))
+	router.HandleFunc("/results", getResultsHandler(store))
 	router.HandleFunc("/healthz", allIsOkey)
 	http.ListenAndServe("0.0.0.0:" + PORT, router)
+}
+func getResultsHandler(store ResultStore) func(http.ResponseWriter, *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		data, err := store.getAll()
+		if err != nil {
+			http.Error(writer, err.Error(), http.StatusInternalServerError)
+		}
+		json.NewEncoder(writer).Encode(data)
+	}
 }
 
 func allIsOkey(writer http.ResponseWriter, request *http.Request) {
 	json.NewEncoder(writer).Encode("okey")
-}
-
-type ResultStore interface {
-	save(payload payload) error
 }
 
 func postResultHandler(resultStore ResultStore) func (w http.ResponseWriter, r *http.Request) {
