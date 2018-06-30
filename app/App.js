@@ -1,5 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, Dimensions, Alert, Button } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Alert,
+  Button,
+  Picker,
+  ActionSheetIOS,
+  TouchableOpacity,
+  TextInput,
+  Switch
+} from 'react-native';
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import PRE from './PRE';
 import Tag from './Tag';
 const v_logo = require('./logos/v.png')
@@ -14,23 +27,17 @@ const sd_logo = require('./logos/sd.png')
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
 
-const SIZE = WIDTH < HEIGHT ? WIDTH - 10 : HEIGHT - 10;
+const SIZE = WIDTH < HEIGHT ? WIDTH - 40 : HEIGHT - 40;
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      parties: {
-        v: {x: 0, y: 0},
-        s: {x: 0, y: 0},
-        mp: {x: 0, y: 0},
-        c: {x: 0, y: 0},
-        l: {x: 0, y: 0},
-        m: {x: 0, y: 0},
-        kd: {x: 0, y: 0},
-        sd: {x: 0, y: 0}
-      },
-      user_choice: "david_tennander"
+      parties: defaultParties,
+      user_choice: 0,
+      start_screen: false,
+      comment: "",
+      is_partist: false
     };
     this.updateParty = this.updateParty.bind(this);
   }
@@ -45,7 +52,6 @@ export default class App extends React.Component {
         "gal_tan": normalize(this.state.parties[p].y)
       }
     })
-    console.log(parties);
     let data = {
       "political_views": parties,
       "user_choice": this.state.user_choice
@@ -61,6 +67,15 @@ export default class App extends React.Component {
     .catch((error) =>{
       console.error(error);
     });
+    this.setState({start_screen: true})
+  }
+
+  start() {
+    this.setState({start_screen: false, parties: defaultParties})
+  }
+
+  restart() {
+    this.setState({start_screen: true})
   }
 
   updateParty(obj, party) {
@@ -70,26 +85,101 @@ export default class App extends React.Component {
     this.setState({parties: tempData});
   }
 
+  toggleIsPartist() {
+    let is = this.state.is_partist;
+    this.setState({is_partist: !is});
+  }
+
   render() {
     return (
       <View>
-        <View style={styles.container}>
-          {([0,1,2,3,4,5,6,7,8,9,10].map((x, i) => <View style={bars(i).latitude} key={i}></View>))}
-          {([0,1,2,3,4,5,6,7,8,9,10].map((x, i) => <View style={bars(i).longitude} key={i}></View>))}
-          <Tag updateParty={this.updateParty} party={"v"} logo={v_logo} />
-          <Tag updateParty={this.updateParty} party={"s"} logo={s_logo} />
-          <Tag updateParty={this.updateParty} party={"mp"} logo={mp_logo} />
-          <Tag updateParty={this.updateParty} party={"c"} logo={c_logo} />
-          <Tag updateParty={this.updateParty} party={"l"} logo={l_logo} />
-          <Tag updateParty={this.updateParty} party={"m"} logo={m_logo} />
-          <Tag updateParty={this.updateParty} party={"kd"} logo={kd_logo} />
-          <Tag updateParty={this.updateParty} party={"sd"} logo={sd_logo} />
-        </View>
-        <Button onPress={() => this.displayState()} title="lol" />
+        {this.state.start_screen
+          ?
+          <View>
+            <TouchableOpacity style={styles.startButton} onPress={() => this.start()}>
+              <Text style={styles.startButtonText}>START</Text>
+            </TouchableOpacity>
+          </View>
+          :
+          <View>
+            <View style={{flexDirection: "row", marginTop: 60, marginLeft: 10}}>
+              <RadioForm
+                radio_props={radio_props}
+                initial={0}
+                formHorizontal={true}
+                labelHorizontal={false}
+                buttonColor={'rgb(150,100,200)'}
+                selectedButtonColor={"rgb(150,100,200)"}
+                animation={true}
+                onPress={(value) => {this.setState({user_choice: value})}} />
+
+              <View style={{flexDirection: "row"}}>
+                <Text style={{margin: 10, marginLeft: 40}}>Är du aktiv i detta parti?</Text>
+                <Switch
+                  onValueChange={() => this.toggleIsPartist()}
+                  value={this.state.is_partist}/>
+              </View>
+            </View>
+
+            <View style={{borderWidth: 1, borderColor: "black", marginLeft: 20, marginRight: 20, borderRadius: 10}}>
+              <TextInput
+                style={{fontSize: 24, height: 40}}
+                placeholder="Kommentar"
+                onChangeText={(text) => this.setState({comment: text})} />
+            </View>
+
+            <View style={styles.container}>
+              {([0,1,2,3,4,5,6,7,8,9,10].map((x, i) => <View style={bars(i).latitude} key={i}></View>))}
+              {([0,1,2,3,4,5,6,7,8,9,10].map((x, i) => <View style={bars(i).longitude} key={i}></View>))}
+              
+              <Tag updateParty={this.updateParty} party={"v"} logo={v_logo} />
+              <Tag updateParty={this.updateParty} party={"sd"} logo={sd_logo} />
+              <Tag updateParty={this.updateParty} party={"s"} logo={s_logo} />
+              <Tag updateParty={this.updateParty} party={"mp"} logo={mp_logo} />
+              <Tag updateParty={this.updateParty} party={"m"} logo={m_logo} />
+              <Tag updateParty={this.updateParty} party={"l"} logo={l_logo} />
+              <Tag updateParty={this.updateParty} party={"kd"} logo={kd_logo} />
+              <Tag updateParty={this.updateParty} party={"c"} logo={c_logo} />
+              
+            </View>
+
+            <View style={{flexDirection: "row", justifyContent: "center"}}>
+              <TouchableOpacity style={styles.doneButton} onPress={() => this.restart()}>
+                <Text style={styles.doneButtonText}>OMSTART</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.doneButton} onPress={() => this.displayState()}>
+                <Text style={styles.doneButtonText}>KLAR</Text>
+              </TouchableOpacity>
+            </View>
+
+            
+            {/*ActionSheetIOS.showActionSheetWithOptions({
+              options: ['Cancel', 'Remove'],
+              destructiveButtonIndex: 1,
+              cancelButtonIndex: 0,
+            },
+            (buttonIndex) => {
+              if (buttonIndex === 1) { /* destructive action */}
+            })*/}
+          </View>
+        }
       </View>
     );
   }
 }
+
+var radio_props = [
+  {label: "Vet ej", value: 0 },
+  {label: 'C', value: 1 },
+  {label: 'L', value: 2 },
+  {label: 'KD', value: 3 },
+  {label: 'M', value: 4 },
+  {label: 'MP', value: 5 },
+  {label: 'S', value: 6 },
+  {label: 'SD', value: 7 },
+  {label: 'V', value: 8 },
+  {label: "Annat", value: 9 }
+];
 
 const styles = StyleSheet.create({
   container: {
@@ -98,8 +188,46 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: SIZE,
     height: SIZE,
-    marginTop: 100,
-    marginLeft: 5
+    marginTop: 10,
+    marginLeft: 20
+  },
+  startButton: {
+    backgroundColor: "rgb(150,100,200)",
+    height: 100,
+    width: 200,
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: HEIGHT/2-100,
+    borderRadius: 20,
+    shadowColor: "black",
+    shadowOffset: {width: 0, height: 5},
+    shadowOpacity: 0.7,
+    shadowRadius: 4,
+    justifyContent: "center"
+  },
+  startButtonText: {
+    textAlign: "center",
+    fontSize: 36,
+    color: "ivory",
+    fontWeight: "200"
+  },
+  doneButton: {
+    backgroundColor: "rgb(150,100,200)",
+    height: 60,
+    width: 180,
+    margin: 20,
+    borderRadius: 20,
+    shadowColor: "black",
+    shadowOffset: {width: 0, height: 5},
+    shadowOpacity: 0.7,
+    shadowRadius: 4,
+    justifyContent: "center"
+  },
+  doneButtonText: {
+    textAlign: "center",
+    fontSize: 36,
+    color: "ivory",
+    fontWeight: "200"
   }
 });
 
@@ -124,5 +252,16 @@ const bars = index => {
 }
 
 const normalize = (n) => {
-  return n._value/(SIZE/2);
+  return n !== 0 ? n._value/(SIZE/2) : 0;
+}
+
+const defaultParties = {
+  v: {x: 0, y: 0},
+  s: {x: 0, y: 0},
+  mp: {x: 0, y: 0},
+  c: {x: 0, y: 0},
+  l: {x: 0, y: 0},
+  m: {x: 0, y: 0},
+  kd: {x: 0, y: 0},
+  sd: {x: 0, y: 0}
 }
