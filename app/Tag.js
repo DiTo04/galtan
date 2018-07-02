@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import Image from 'react-native-scalable-image';
 
 import {
   StyleSheet,
   Text,
   View,
-  Image, // we want to use an image
+ // Image, // we want to use an image
   PanResponder, // we want to bring in the PanResponder system
   Animated // we wil be using animated value
 } from 'react-native';
@@ -77,9 +78,9 @@ let imageStyle = {transform: [{translateX}, {translateY}, {rotate}, {scale}]};
 
 return (
     <Animated.View style={[imageStyle, styles.container]} {...this._panResponder.panHandlers} >
-      <View style={styles.rect}>
+      <View>
         <Image
-          style={{width: 96, height: 96}}
+          width={96}
           source={this.props.logo} />
       </View>
     </Animated.View>
@@ -90,21 +91,6 @@ return (
 
 const styles = StyleSheet.create({
   container: {
-  width:96,
-  height:96,
   position: 'absolute'
-},
-rect: {
-  borderRadius:4,
-  borderWidth: 1,
-  borderColor: '#fff',
-  width:96,
-  height:96
-
   },
-  txt: {
-    color:'#fff',
-    textAlign:'center'
-  }
-
  });

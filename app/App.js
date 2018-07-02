@@ -23,6 +23,7 @@ const l_logo = require('./logos/l.png')
 const m_logo = require('./logos/m.png')
 const kd_logo = require('./logos/kd.png')
 const sd_logo = require('./logos/sd.png')
+const person_logo = require('./logos/person.png')
 
 const WIDTH = Dimensions.get("window").width;
 const HEIGHT = Dimensions.get("window").height;
@@ -54,7 +55,9 @@ export default class App extends React.Component {
     })
     let data = {
       "political_views": parties,
-      "user_choice": this.state.user_choice
+      "user_choice": this.state.user_choice,
+      "is_partist": this.state.is_partist,
+      "comment": this.state.comment
     }
     fetch(url, {
       method: "POST",
@@ -64,14 +67,17 @@ export default class App extends React.Component {
       },
       body: JSON.stringify(data)
     })
+    .then(status => {
+      console.log(status);
+      this.setState({start_screen: true});
+    })
     .catch((error) =>{
       console.error(error);
     });
-    this.setState({start_screen: true})
   }
 
   start() {
-    this.setState({start_screen: false, parties: defaultParties})
+    this.setState({start_screen: false, parties: defaultParties, comment: "", is_partist: false})
   }
 
   restart() {
@@ -79,7 +85,6 @@ export default class App extends React.Component {
   }
 
   updateParty(obj, party) {
-    console.log(typeof parseFloat(obj[party].x))
     let tempData = Object.assign({}, this.state.parties);
     tempData[party] = obj[party];
     this.setState({parties: tempData});
@@ -102,7 +107,25 @@ export default class App extends React.Component {
           </View>
           :
           <View>
-            <View style={{flexDirection: "row", marginTop: 60, marginLeft: 10}}>
+            
+
+            <View style={styles.container}>
+              {([0,1,2,3,4,5,6,7,8,9,10].map((x, i) => <View style={bars(i).latitude} key={i}></View>))}
+              {([0,1,2,3,4,5,6,7,8,9,10].map((x, i) => <View style={bars(i).longitude} key={i}></View>))}
+              
+              <Tag updateParty={this.updateParty} party={"person"} logo={person_logo} />
+              <Tag updateParty={this.updateParty} party={"v"} logo={v_logo} />
+              <Tag updateParty={this.updateParty} party={"sd"} logo={sd_logo} />
+              <Tag updateParty={this.updateParty} party={"s"} logo={s_logo} />
+              <Tag updateParty={this.updateParty} party={"mp"} logo={mp_logo} />
+              <Tag updateParty={this.updateParty} party={"m"} logo={m_logo} />
+              <Tag updateParty={this.updateParty} party={"l"} logo={l_logo} />
+              <Tag updateParty={this.updateParty} party={"kd"} logo={kd_logo} />
+              <Tag updateParty={this.updateParty} party={"c"} logo={c_logo} />
+              
+            </View>
+
+            <View style={{flexDirection: "row", marginTop: 30, marginLeft: 10}}>
               <RadioForm
                 radio_props={radio_props}
                 initial={0}
@@ -121,29 +144,14 @@ export default class App extends React.Component {
               </View>
             </View>
 
-            <View style={{borderWidth: 1, borderColor: "black", marginLeft: 20, marginRight: 20, borderRadius: 10}}>
+            <View style={{borderWidth: 1, borderColor: "black", marginLeft: 20, marginRight: 20, borderRadius: 10, marginTop: 10}}>
               <TextInput
                 style={{fontSize: 24, height: 40}}
                 placeholder="Kommentar"
                 onChangeText={(text) => this.setState({comment: text})} />
             </View>
 
-            <View style={styles.container}>
-              {([0,1,2,3,4,5,6,7,8,9,10].map((x, i) => <View style={bars(i).latitude} key={i}></View>))}
-              {([0,1,2,3,4,5,6,7,8,9,10].map((x, i) => <View style={bars(i).longitude} key={i}></View>))}
-              
-              <Tag updateParty={this.updateParty} party={"v"} logo={v_logo} />
-              <Tag updateParty={this.updateParty} party={"sd"} logo={sd_logo} />
-              <Tag updateParty={this.updateParty} party={"s"} logo={s_logo} />
-              <Tag updateParty={this.updateParty} party={"mp"} logo={mp_logo} />
-              <Tag updateParty={this.updateParty} party={"m"} logo={m_logo} />
-              <Tag updateParty={this.updateParty} party={"l"} logo={l_logo} />
-              <Tag updateParty={this.updateParty} party={"kd"} logo={kd_logo} />
-              <Tag updateParty={this.updateParty} party={"c"} logo={c_logo} />
-              
-            </View>
-
-            <View style={{flexDirection: "row", justifyContent: "center"}}>
+            <View style={{flexDirection: "row", justifyContent: "center", marginTop: 10}}>
               <TouchableOpacity style={styles.doneButton} onPress={() => this.restart()}>
                 <Text style={styles.doneButtonText}>OMSTART</Text>
               </TouchableOpacity>
@@ -152,15 +160,6 @@ export default class App extends React.Component {
               </TouchableOpacity>
             </View>
 
-            
-            {/*ActionSheetIOS.showActionSheetWithOptions({
-              options: ['Cancel', 'Remove'],
-              destructiveButtonIndex: 1,
-              cancelButtonIndex: 0,
-            },
-            (buttonIndex) => {
-              if (buttonIndex === 1) { /* destructive action */}
-            })*/}
           </View>
         }
       </View>
@@ -188,8 +187,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: SIZE,
     height: SIZE,
-    marginTop: 10,
+    marginTop: 30,
     marginLeft: 20
+  },
+  image: {
+    width: 'auto',
+    height:''
   },
   startButton: {
     backgroundColor: "rgb(150,100,200)",
