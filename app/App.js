@@ -35,10 +35,10 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       parties: defaultParties,
-      user_choice: 0,
+      user_choice: "0",
       start_screen: false,
       comment: "",
-      is_partist: false
+      active: false
     };
     this.updateParty = this.updateParty.bind(this);
   }
@@ -56,7 +56,7 @@ export default class App extends React.Component {
     let data = {
       "political_views": parties,
       "user_choice": this.state.user_choice,
-      "is_partist": this.state.is_partist,
+      "active": this.state.active,
       "comment": this.state.comment
     }
     fetch(url, {
@@ -77,7 +77,7 @@ export default class App extends React.Component {
   }
 
   start() {
-    this.setState({start_screen: false, parties: defaultParties, comment: "", is_partist: false})
+    this.setState({start_screen: false, parties: defaultParties, comment: "", active: false})
   }
 
   restart() {
@@ -91,8 +91,13 @@ export default class App extends React.Component {
   }
 
   toggleIsPartist() {
-    let is = this.state.is_partist;
-    this.setState({is_partist: !is});
+    let is = this.state.active;
+    this.setState({active: (!is)});
+  }
+
+  chooseParty(value) {
+    let choices = ["no_choice", "c", "l", "kd", "m", "mp", "s", "sd", "v", "other"];
+    this.setState({user_choice: choices[value]});
   }
 
   render() {
@@ -108,10 +113,15 @@ export default class App extends React.Component {
           :
           <View>
             
-
             <View style={styles.container}>
               {([0,1,2,3,4,5,6,7,8,9,10].map((x, i) => <View style={bars(i).latitude} key={i}></View>))}
               {([0,1,2,3,4,5,6,7,8,9,10].map((x, i) => <View style={bars(i).longitude} key={i}></View>))}
+
+              <Text style={{position: "absolute", top: 10, left: (SIZE/2 + 5), fontWeight: "200", fontSize: 36, color: "#222"}}>GAL</Text>
+              <Text style={{position: "absolute", bottom: 10, left: (SIZE/2 + 5), fontWeight: "200", fontSize: 36, color: "#222"}}>TAN</Text>
+              <Text style={{position: "absolute", top: (SIZE/2 - 40), left: 10, fontWeight: "200", fontSize: 36, color: "#222"}}>V</Text>
+              <Text style={{position: "absolute", top: (SIZE/2 - 40), right: 10, fontWeight: "200", fontSize: 36, color: "#222"}}>H</Text>
+              
               
               <Tag updateParty={this.updateParty} party={"person"} logo={person_logo} />
               <Tag updateParty={this.updateParty} party={"v"} logo={v_logo} />
@@ -134,19 +144,19 @@ export default class App extends React.Component {
                 buttonColor={'rgb(150,100,200)'}
                 selectedButtonColor={"rgb(150,100,200)"}
                 animation={true}
-                onPress={(value) => {this.setState({user_choice: value})}} />
+                onPress={(value) => {this.chooseParty(value)}} />
 
               <View style={{flexDirection: "row"}}>
                 <Text style={{margin: 10, marginLeft: 40}}>Är du aktiv i detta parti?</Text>
                 <Switch
                   onValueChange={() => this.toggleIsPartist()}
-                  value={this.state.is_partist}/>
+                  value={this.state.active}/>
               </View>
             </View>
 
             <View style={{borderWidth: 1, borderColor: "black", marginLeft: 20, marginRight: 20, borderRadius: 10, marginTop: 10}}>
               <TextInput
-                style={{fontSize: 24, height: 40}}
+                style={{fontSize: 24, height: 40, paddingLeft: 10}}
                 placeholder="Kommentar"
                 onChangeText={(text) => this.setState({comment: text})} />
             </View>

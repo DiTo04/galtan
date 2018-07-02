@@ -1,0 +1,778 @@
+[
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.33791208,
+        "gal_tan": -0.125
+      },
+      "kd": {
+        "right_left": 0.90796703,
+        "gal_tan": 0.72115386
+      },
+      "l": {
+        "right_left": 0.80082417,
+        "gal_tan": -0.81387365
+      },
+      "m": {
+        "right_left": 0.6923077,
+        "gal_tan": -0.4752747
+      },
+      "mp": {
+        "right_left": -0.33241758,
+        "gal_tan": -0.66483516
+      },
+      "s": {
+        "right_left": 0.013736264,
+        "gal_tan": 0.006868132
+      },
+      "sd": {
+        "right_left": 0.989011,
+        "gal_tan": 0.39423078
+      },
+      "v": {
+        "right_left": -0.9120879,
+        "gal_tan": -0.0013736264
+      }
+    },
+    "user_choice": "",
+    "time_stamp": "2018-07-01T10:22:55Z",
+    "comment": "",
+    "active": ""
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.36813188,
+        "gal_tan": -0.5673077
+      },
+      "kd": {
+        "right_left": 0.44642857,
+        "gal_tan": 0.5673077
+      },
+      "l": {
+        "right_left": 0.5494506,
+        "gal_tan": -0.3447802
+      },
+      "m": {
+        "right_left": 0.65247256,
+        "gal_tan": 0.32692307
+      },
+      "mp": {
+        "right_left": -0.18818681,
+        "gal_tan": -0.6510989
+      },
+      "s": {
+        "right_left": -0.4478022,
+        "gal_tan": 0.5151099
+      },
+      "sd": {
+        "right_left": 0.3021978,
+        "gal_tan": 0.875
+      },
+      "v": {
+        "right_left": -0.88736266,
+        "gal_tan": -0.60851645
+      }
+    },
+    "user_choice": "l",
+    "time_stamp": "2018-07-01T14:17:04Z",
+    "comment": "",
+    "active": true
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.4684066,
+        "gal_tan": -0.6895604
+      },
+      "kd": {
+        "right_left": 0.71428573,
+        "gal_tan": 0.53296703
+      },
+      "l": {
+        "right_left": 0.260989,
+        "gal_tan": -0.5206044
+      },
+      "m": {
+        "right_left": 0.7293956,
+        "gal_tan": -0.23626374
+      },
+      "mp": {
+        "right_left": -0.38186812,
+        "gal_tan": -0.26373628
+      },
+      "s": {
+        "right_left": -0.5934066,
+        "gal_tan": 0.3598901
+      },
+      "sd": {
+        "right_left": 0.5837912,
+        "gal_tan": 0.8598901
+      },
+      "v": {
+        "right_left": -0.7239011,
+        "gal_tan": 0.50961536
+      }
+    },
+    "user_choice": "l",
+    "time_stamp": "2018-07-01T14:18:34Z",
+    "comment": "",
+    "active": true
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.42307693,
+        "gal_tan": -0.35164836
+      },
+      "kd": {
+        "right_left": 0.23351648,
+        "gal_tan": -0.06318682
+      },
+      "l": {
+        "right_left": 0.47115386,
+        "gal_tan": 0.20879121
+      },
+      "m": {
+        "right_left": 0.9203297,
+        "gal_tan": 0.046703298
+      },
+      "mp": {
+        "right_left": -0.36263737,
+        "gal_tan": -0.009615385
+      },
+      "person": {
+        "right_left": -0.87362635,
+        "gal_tan": -0.0041208793
+      },
+      "s": {
+        "right_left": 0.59203297,
+        "gal_tan": -0.65796703
+      },
+      "sd": {
+        "right_left": 0.9285714,
+        "gal_tan": 0.05631868
+      },
+      "v": {
+        "right_left": -0.83653843,
+        "gal_tan": -0.19505495
+      }
+    },
+    "user_choice": "v",
+    "time_stamp": "2018-07-02T12:42:46Z",
+    "comment": "",
+    "active": true
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.04258242,
+        "gal_tan": -0.34752747
+      },
+      "kd": {
+        "right_left": 0.32692307,
+        "gal_tan": 0.42307693
+      },
+      "l": {
+        "right_left": 0.115384616,
+        "gal_tan": -0.51236266
+      },
+      "m": {
+        "right_left": 0.5625,
+        "gal_tan": -0.041208792
+      },
+      "mp": {
+        "right_left": -0.41758242,
+        "gal_tan": -0.22115384
+      },
+      "person": {
+        "right_left": -0.009615385,
+        "gal_tan": -0.05357143
+      },
+      "s": {
+        "right_left": -0.19024725,
+        "gal_tan": -0.05563187
+      },
+      "sd": {
+        "right_left": 0.6332418,
+        "gal_tan": 0.37774727
+      },
+      "v": {
+        "right_left": -0.7706044,
+        "gal_tan": 0.17994505
+      }
+    },
+    "user_choice": "v",
+    "time_stamp": "2018-07-02T12:48:49Z",
+    "comment": "",
+    "active": true
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.46016484,
+        "gal_tan": -0.6675824
+      },
+      "kd": {
+        "right_left": 0.83653843,
+        "gal_tan": 0.71153843
+      },
+      "l": {
+        "right_left": 0.7307692,
+        "gal_tan": -0.27335164
+      },
+      "m": {
+        "right_left": 0.3708791,
+        "gal_tan": 0.12774725
+      },
+      "mp": {
+        "right_left": 0.14835165,
+        "gal_tan": -0.4052198
+      },
+      "person": {
+        "right_left": -1.0467033,
+        "gal_tan": -0.5576923
+      },
+      "s": {
+        "right_left": -0.25824177,
+        "gal_tan": 0.3708791
+      },
+      "sd": {
+        "right_left": 0.8901099,
+        "gal_tan": 0.9368132
+      },
+      "v": {
+        "right_left": -0.9010989,
+        "gal_tan": -0.4642857
+      }
+    },
+    "user_choice": "v",
+    "time_stamp": "2018-07-02T12:57:17Z",
+    "comment": "",
+    "active": true
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.55906594,
+        "gal_tan": -0.24038461
+      },
+      "kd": {
+        "right_left": 0.7967033,
+        "gal_tan": 0.8186813
+      },
+      "l": {
+        "right_left": 0.85714287,
+        "gal_tan": -0.1771978
+      },
+      "m": {
+        "right_left": 0.8406593,
+        "gal_tan": 0.3434066
+      },
+      "mp": {
+        "right_left": -0.021978023,
+        "gal_tan": -0.5755494
+      },
+      "person": {
+        "right_left": -0.79395604,
+        "gal_tan": -0.7019231
+      },
+      "s": {
+        "right_left": -0.28983516,
+        "gal_tan": -0.29945055
+      },
+      "sd": {
+        "right_left": 0.5260989,
+        "gal_tan": 0.26785713
+      },
+      "v": {
+        "right_left": -0.728022,
+        "gal_tan": -0.55906594
+      }
+    },
+    "user_choice": "v",
+    "time_stamp": "2018-07-02T12:59:06Z",
+    "comment": "",
+    "active": true
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.1978022,
+        "gal_tan": 0.3282967
+      },
+      "kd": {
+        "right_left": 0.86950547,
+        "gal_tan": 0.50274724
+      },
+      "l": {
+        "right_left": 0.5673077,
+        "gal_tan": 0.15659341
+      },
+      "m": {
+        "right_left": 0.77335167,
+        "gal_tan": -0.16208792
+      },
+      "mp": {
+        "right_left": -0.050824177,
+        "gal_tan": 0.14697802
+      },
+      "person": {
+        "right_left": -0.51373625,
+        "gal_tan": -0.24587911
+      },
+      "s": {
+        "right_left": -0.11263736,
+        "gal_tan": -0.07554945
+      },
+      "sd": {
+        "right_left": 0.8255494,
+        "gal_tan": 1.0013736
+      },
+      "v": {
+        "right_left": -0.8791209,
+        "gal_tan": -0.7019231
+      }
+    },
+    "user_choice": "",
+    "time_stamp": "2018-07-02T13:49:22Z",
+    "comment": "",
+    "active": ""
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.63461536,
+        "gal_tan": -0.62774724
+      },
+      "kd": {
+        "right_left": 0.64285713,
+        "gal_tan": -0.115384616
+      },
+      "l": {
+        "right_left": 0.8269231,
+        "gal_tan": -0.6703297
+      },
+      "m": {
+        "right_left": 0.7925824,
+        "gal_tan": -0.026098901
+      },
+      "mp": {
+        "right_left": 0,
+        "gal_tan": -0.58928573
+      },
+      "person": {
+        "right_left": -0.32692307,
+        "gal_tan": -0.6167582
+      },
+      "s": {
+        "right_left": -0.31318682,
+        "gal_tan": -0.38736263
+      },
+      "sd": {
+        "right_left": 0.72252744,
+        "gal_tan": 0.53571427
+      },
+      "v": {
+        "right_left": -0.6332418,
+        "gal_tan": -0.33791208
+      }
+    },
+    "user_choice": "",
+    "time_stamp": "2018-07-02T13:57:17Z",
+    "comment": "",
+    "active": ""
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.33241758,
+        "gal_tan": -0.37225273
+      },
+      "kd": {
+        "right_left": 0.71153843,
+        "gal_tan": 0.875
+      },
+      "l": {
+        "right_left": 0.23901099,
+        "gal_tan": -0.66895604
+      },
+      "m": {
+        "right_left": 0.71703297,
+        "gal_tan": 0.30082417
+      },
+      "mp": {
+        "right_left": -0.34203297,
+        "gal_tan": -0.24175824
+      },
+      "person": {
+        "right_left": -0.18131869,
+        "gal_tan": -0.5934066
+      },
+      "s": {
+        "right_left": -0.14972527,
+        "gal_tan": -0.5645604
+      },
+      "sd": {
+        "right_left": 1.0082418,
+        "gal_tan": 0.97664833
+      },
+      "v": {
+        "right_left": -0.5837912,
+        "gal_tan": 0.46016484
+      }
+    },
+    "user_choice": "",
+    "time_stamp": "2018-07-02T13:59:24Z",
+    "comment": "",
+    "active": ""
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.43543956,
+        "gal_tan": 0.13873626
+      },
+      "kd": {
+        "right_left": 0.98214287,
+        "gal_tan": 0.7651099
+      },
+      "l": {
+        "right_left": 0.5782967,
+        "gal_tan": -0.8035714
+      },
+      "m": {
+        "right_left": 0.9629121,
+        "gal_tan": 0.22664835
+      },
+      "mp": {
+        "right_left": -0.5686813,
+        "gal_tan": -0.18543956
+      },
+      "person": {
+        "right_left": 0.3846154,
+        "gal_tan": -0.8145604
+      },
+      "s": {
+        "right_left": -0.33516484,
+        "gal_tan": 0.39423078
+      },
+      "sd": {
+        "right_left": 0.5824176,
+        "gal_tan": 0.94505495
+      },
+      "v": {
+        "right_left": -0.96016484,
+        "gal_tan": -0.3901099
+      }
+    },
+    "user_choice": "",
+    "time_stamp": "2018-07-02T14:04:38Z",
+    "comment": "",
+    "active": ""
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.43543956,
+        "gal_tan": 0.13873626
+      },
+      "kd": {
+        "right_left": 0.98214287,
+        "gal_tan": 0.7651099
+      },
+      "l": {
+        "right_left": 0.5782967,
+        "gal_tan": -0.8035714
+      },
+      "m": {
+        "right_left": 0.9629121,
+        "gal_tan": 0.22664835
+      },
+      "mp": {
+        "right_left": -0.5686813,
+        "gal_tan": -0.18543956
+      },
+      "person": {
+        "right_left": 0.3846154,
+        "gal_tan": -0.8145604
+      },
+      "s": {
+        "right_left": -0.33516484,
+        "gal_tan": 0.39423078
+      },
+      "sd": {
+        "right_left": 0.5824176,
+        "gal_tan": 0.94505495
+      },
+      "v": {
+        "right_left": -0.96016484,
+        "gal_tan": -0.3901099
+      }
+    },
+    "user_choice": "",
+    "time_stamp": "2018-07-02T14:04:41Z",
+    "comment": "",
+    "active": ""
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.18406594,
+        "gal_tan": -0.40247253
+      },
+      "kd": {
+        "right_left": 0.4010989,
+        "gal_tan": 0.6895604
+      },
+      "l": {
+        "right_left": 0.43818682,
+        "gal_tan": 0.011675824
+      },
+      "m": {
+        "right_left": 0.72252744,
+        "gal_tan": -0.009615385
+      },
+      "mp": {
+        "right_left": -0.27335164,
+        "gal_tan": -0.6854396
+      },
+      "person": {
+        "right_left": -0.0013736264,
+        "gal_tan": -0.4052198
+      },
+      "s": {
+        "right_left": -0.31456044,
+        "gal_tan": 0.0013736264
+      },
+      "sd": {
+        "right_left": 0.8173077,
+        "gal_tan": 0.8214286
+      },
+      "v": {
+        "right_left": -0.66895604,
+        "gal_tan": 0.027472528
+      }
+    },
+    "user_choice": "",
+    "time_stamp": "2018-07-02T14:26:48Z",
+    "comment": "",
+    "active": ""
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.7156593,
+        "gal_tan": -0.8173077
+      },
+      "kd": {
+        "right_left": 0.6744506,
+        "gal_tan": 0.34615386
+      },
+      "l": {
+        "right_left": 0.4642857,
+        "gal_tan": -0.3489011
+      },
+      "m": {
+        "right_left": 0.61126375,
+        "gal_tan": 0.13324176
+      },
+      "mp": {
+        "right_left": -0.26373628,
+        "gal_tan": -0.73626375
+      },
+      "s": {
+        "right_left": -0.24175824,
+        "gal_tan": 0.01923077
+      },
+      "sd": {
+        "right_left": 0.37774727,
+        "gal_tan": 0.8956044
+      },
+      "v": {
+        "right_left": -0.6744506,
+        "gal_tan": -0.49725273
+      }
+    },
+    "user_choice": "",
+    "time_stamp": "2018-07-02T15:04:51Z",
+    "comment": "vbk",
+    "active": ""
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.023351649,
+        "gal_tan": -0.78846157
+      },
+      "kd": {
+        "right_left": 0.62362635,
+        "gal_tan": 0.23626374
+      },
+      "l": {
+        "right_left": 0.13598901,
+        "gal_tan": -0.32692307
+      },
+      "m": {
+        "right_left": 0.22527473,
+        "gal_tan": -0.17994505
+      },
+      "mp": {
+        "right_left": -0.8832418,
+        "gal_tan": -0.8818681
+      },
+      "person": {
+        "right_left": 0.4752747,
+        "gal_tan": -0.27884614
+      },
+      "s": {
+        "right_left": -0.18406594,
+        "gal_tan": -0.22664835
+      },
+      "sd": {
+        "right_left": 0.31318682,
+        "gal_tan": 0.4642857
+      },
+      "v": {
+        "right_left": -0.739011,
+        "gal_tan": 0.25
+      }
+    },
+    "user_choice": "other",
+    "time_stamp": "2018-07-02T15:21:13Z",
+    "comment": "med",
+    "active": ""
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": -0.28708792,
+        "gal_tan": -0.26923078
+      },
+      "kd": {
+        "right_left": 0.30906594,
+        "gal_tan": 0.24587911
+      },
+      "l": {
+        "right_left": 0.1304945,
+        "gal_tan": -0.15247253
+      },
+      "m": {
+        "right_left": 0.31593406,
+        "gal_tan": -0.017857144
+      },
+      "mp": {
+        "right_left": -0.7967033,
+        "gal_tan": -0.20741758
+      },
+      "person": {
+        "right_left": 0.7651099,
+        "gal_tan": -0.024725275
+      },
+      "s": {
+        "right_left": -0.41346154,
+        "gal_tan": -0.19368131
+      },
+      "sd": {
+        "right_left": -0.19368131,
+        "gal_tan": 0.6936813
+      },
+      "v": {
+        "right_left": -0.8228022,
+        "gal_tan": 0.037087914
+      }
+    },
+    "user_choice": "other",
+    "time_stamp": "2018-07-02T15:37:27Z",
+    "comment": "med",
+    "active": ""
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.37774727,
+        "gal_tan": -0.44093406
+      },
+      "kd": {
+        "right_left": 0.71016484,
+        "gal_tan": 0.48763737
+      },
+      "l": {
+        "right_left": 0.1923077,
+        "gal_tan": -0.5604396
+      },
+      "m": {
+        "right_left": 0.5521978,
+        "gal_tan": 0.29395604
+      },
+      "mp": {
+        "right_left": -0.44230768,
+        "gal_tan": -0.35164836
+      },
+      "person": {
+        "right_left": -0.7458791,
+        "gal_tan": 0.0013736264
+      },
+      "s": {
+        "right_left": -0.6456044,
+        "gal_tan": -0.4587912
+      },
+      "sd": {
+        "right_left": 0.9381868,
+        "gal_tan": 0.8379121
+      },
+      "v": {
+        "right_left": -0.9052198,
+        "gal_tan": -0.4752747
+      }
+    },
+    "user_choice": "",
+    "time_stamp": "2018-07-02T17:42:40Z",
+    "comment": "",
+    "active": ""
+  },
+  {
+    "political_views": {
+      "c": {
+        "right_left": 0.5151099,
+        "gal_tan": -0.6050824
+      },
+      "kd": {
+        "right_left": 0.7760989,
+        "gal_tan": 0.46703297
+      },
+      "l": {
+        "right_left": 0.20604396,
+        "gal_tan": -0.3997253
+      },
+      "m": {
+        "right_left": 0.5906593,
+        "gal_tan": -0.006868132
+      },
+      "mp": {
+        "right_left": -0.4052198,
+        "gal_tan": -0.49725273
+      },
+      "person": {
+        "right_left": 0.23351648,
+        "gal_tan": -0.24313186
+      },
+      "s": {
+        "right_left": -0.17994505,
+        "gal_tan": -0.17994505
+      },
+      "sd": {
+        "right_left": 0.12362637,
+        "gal_tan": 0.8076923
+      },
+      "v": {
+        "right_left": -0.7760989,
+        "gal_tan": -0.7129121
+      }
+    },
+    "user_choice": "c",
+    "time_stamp": "2018-07-02T17:44:20Z",
+    "comment": "",
+    "active": ""
+  }
+]
