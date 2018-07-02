@@ -10,8 +10,8 @@ import (
 )
 
 var (
-	PORT = getEnv("PORT", "8080")
-	STORAGE_FILE = getEnv("FILE_PATH", "./results.json")
+	port        = getEnv("PORT", "8080")
+	StorageFile = getEnv("FILE_PATH", "./results.json")
 )
 
 type politicalView struct {
@@ -23,6 +23,9 @@ type payload struct {
 	PoliticalViews map[string]politicalView `json:"political_views"`
 	UserChoice     string                   `json:"user_choice"`
 	TimeStamp      JSONTime					`json:"time_stamp"`
+	Comment		   string 					`json:"comment"`
+	Active 		   bool 					`json:"active"`
+	
 }
 
 type JSONTime struct {
@@ -41,14 +44,14 @@ type ResultStore interface {
 
 func main() {
 	router := mux.NewRouter()
-	store := NewResultStore(STORAGE_FILE)
+	store := NewResultStore(StorageFile)
 	router.NewRoute().
 		Methods("POST").
 		Path("/results").
 		HandlerFunc(postResultHandler(store))
 	router.HandleFunc("/results", getResultsHandler(store))
 	router.HandleFunc("/healthz", allIsOkey)
-	http.ListenAndServe("0.0.0.0:" + PORT, router)
+	http.ListenAndServe("0.0.0.0:" + port, router)
 }
 
 func getResultsHandler(store ResultStore) func(http.ResponseWriter, *http.Request) {
