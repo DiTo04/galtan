@@ -51,6 +51,7 @@ func main() {
 		HandlerFunc(postResultHandler(store))
 	router.HandleFunc("/results", getResultsHandler(store))
 	router.HandleFunc("/healthz", allIsOkey)
+	router.PathPrefix("/").Handler(http.FileServer(http.Dir("/static/")))
 	http.ListenAndServe("0.0.0.0:" + port, router)
 }
 

@@ -41,7 +41,7 @@ SVG.selectAll(".horizontal")
 let votes;
 
 
-fetch("https://galtanapi.aiman.space/results")
+fetch("/results")
   .then(data => data.json())
   .then(data => {
     console.log(data)

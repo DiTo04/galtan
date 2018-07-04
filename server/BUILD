@@ -1,6 +1,8 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
 load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 load("@k8s_deploy//:defaults.bzl", "k8s_deploy")
+load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
+load("@io_bazel_rules_docker//container:image.bzl", "container_image")
 
 go_library(
     name = "go_default_library",
@@ -22,11 +24,25 @@ go_binary(
 )
 
 go_image(
-    name = "image",
+    name = "go_image",
     embed = [":go_default_library"],
     goos = "linux",
     pure = "on",
     visibility = ["//visibility:public"],
+)
+
+pkg_tar(
+    name = "static",
+    srcs = [
+        "//server/static"
+    ],
+    package_dir = "/static/",
+)
+
+container_image(
+    name = "image",
+    base = ":go_image",
+    tars = [":static"],
 )
 
 k8s_deploy(
