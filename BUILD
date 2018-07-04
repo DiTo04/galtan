@@ -7,5 +7,5 @@ gazelle(
         "-build_file_name",
         "BUILD,BUILD.bazel",
     ],
-    prefix = "github.com/DiTo04/spexflix",
+    prefix = "github.com/DiTo04/galtan",
 )

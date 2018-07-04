@@ -6,13 +6,11 @@ load("@io_bazel_rules_docker//container:image.bzl", "container_image")
 
 go_library(
     name = "go_default_library",
-    srcs = [
-        "jsonResultStore.go",
-        "main.go",
-    ],
-    importpath = "github.com/DiTo04/spexflix/server",
+    srcs = ["main.go"],
+    importpath = "github.com/DiTo04/galtan/server",
     visibility = ["//visibility:private"],
     deps = [
+        "//server/data:go_default_library",
         "@com_github_gorilla_mux//:go_default_library",
     ],
 )
@@ -34,7 +32,7 @@ go_image(
 pkg_tar(
     name = "static",
     srcs = [
-        "//server/static"
+        "//server/static",
     ],
     package_dir = "/static/",
 )
