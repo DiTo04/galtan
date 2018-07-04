@@ -8,7 +8,7 @@
 
 <script type="text/javascript">
 
-const SIZE = 600;
+const SIZE = 500;
 
 let lines = [...Array(11).keys()]; //[-5,-4,-3,-2,-1,0,1,2,3,4,5];
 
@@ -44,14 +44,8 @@ let votes;
 fetch("/results")
   .then(data => data.json())
   .then(data => {
-    console.log(data)
-
     let views = data
         .map(answer => answer.political_views)
-    let combinedViews = {}
-    for(key in views[0]) {
-      combinedViews[key] = views.map(answer => answer[key])
-    }
 
     let aggregatedViews = views
       .reduce((prev, next) => prev.concat(Object.entries(next)), [])
@@ -62,11 +56,9 @@ fetch("/results")
         })
       )
 
-    console.log(aggregatedViews)
-
     function hideVotes(c) {
       d3.selectAll(`.votes:not(.${c.party})`).transition()
-        .duration(500)
+        .duration(200)
         .attr("opacity", 0.3)
     }
 
