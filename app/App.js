@@ -68,7 +68,6 @@ export default class App extends React.Component {
       body: JSON.stringify(data)
     })
     .then(status => {
-      console.log(status);
       this.setState({start_screen: true});
     })
     .catch((error) =>{

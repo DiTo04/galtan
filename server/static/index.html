@@ -1,0 +1,108 @@
+<html>
+<head>
+  <title></title>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+<body>
+<div id="viz"></div>
+
+<script type="text/javascript">
+
+const SIZE = 600;
+
+let lines = [...Array(11).keys()]; //[-5,-4,-3,-2,-1,0,1,2,3,4,5];
+
+let SVG = d3.select("#viz")
+  .append("svg")
+  .attr("width", SIZE)
+  .attr("height", SIZE)
+  .style("background-color", "#ffc");
+
+SVG.selectAll(".horizontal")
+  .data(lines)
+  .enter().append("line")
+  .attr("x1", 0)
+  .attr("x2", SIZE)
+  .attr("y1", (d, i) => SIZE/10*i)
+  .attr("y2", (d, i) => SIZE/10*i)
+  .style("stroke", d => d === 5 ? "#222" : "#888")
+  .style("stroke-width", d => d === 5 ? 2 : 1);
+
+SVG.selectAll(".horizontal")
+  .data(lines)
+  .enter().append("line")
+  .attr("y1", 0)
+  .attr("y2", SIZE)
+  .attr("x1", (d, i) => SIZE/10*i)
+  .attr("x2", (d, i) => SIZE/10*i)
+  .style("stroke", d => d === 5 ? "#222" : "#888")
+  .style("stroke-width", d => d === 5 ? 2 : 1);
+
+let votes;
+
+
+fetch("https://galtanapi.aiman.space/results")
+  .then(data => data.json())
+  .then(data => {
+    console.log(data)
+
+    let views = data
+        .map(answer => answer.political_views)
+    let combinedViews = {}
+    for(key in views[0]) {
+      combinedViews[key] = views.map(answer => answer[key])
+    }
+
+    let aggregatedViews = views
+      .reduce((prev, next) => prev.concat(Object.entries(next)), [])
+      .map(d => (
+        { party: d[0],
+          x: d[1].right_left,
+          y: d[1].gal_tan
+        })
+      )
+
+    console.log(aggregatedViews)
+
+    function hideVotes(c) {
+      d3.selectAll(`.votes:not(.${c.party})`).transition()
+        .duration(500)
+        .attr("opacity", 0.3)
+    }
+
+    function reverseHideVotes(c) {
+      d3.selectAll(`.votes`).transition()
+        .duration(200)
+        .attr("opacity", 1)
+    }
+
+    votes = SVG.selectAll(".votes")
+      .data(aggregatedViews)
+      .enter().append("circle")
+      .attr("r", 4)
+      .attr("cx", c => c.x*SIZE/2 + SIZE/2)
+      .attr("cy", c => c.y*SIZE/2 + SIZE/2)
+      .attr("fill", c => partyColors[c.party])
+      .attr("class", c => c.party + " votes")
+      .on("mouseover", hideVotes)
+      .on("mouseout", reverseHideVotes)
+
+    
+  })
+
+const partyColors = {
+  "c": "rgb(12, 105, 60)",
+  "l": "rgb(17, 107, 177)",
+  "kd": "rgb(12, 95, 160)",
+  "m": "rgb(87, 190, 234)",
+  "mp": "rgb(85, 160, 74)",
+  "s": "rgb(235, 33, 58)",
+  "sd": "rgb(250, 198, 46)",
+  "v": "rgb(216, 44, 39)"
+}
+
+
+
+</script>
+</body>
+</html>
