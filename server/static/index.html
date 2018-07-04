@@ -8,6 +8,42 @@
 
 <script type="text/javascript">
 
+function expected(data){
+  Array.from(new Set(data.map(x => x.party))).forEach(party => {
+    let segregatedViews = data
+      .filter(v => v.party === party);
+    let amountOfVotes = segregatedViews.length;
+    let expectedValues = segregatedViews.reduce((prev, next) => 
+      [
+        prev[0] + next.x/amountOfVotes,
+        prev[1] + next.y/amountOfVotes
+      ], [0,0]);
+
+    console.log(expectedValues)
+
+    let variance = segregatedViews.reduce((prev, next) => 
+      [
+        Math.pow(prev[0] - expectedValues[0], 2)/amountOfVotes,
+        Math.pow(prev[1] - expectedValues[1], 2)/amountOfVotes
+      ], [0,0]);
+
+    console.log(variance);
+
+    let standardDeviation = [Math.sqrt(variance[0]), Math.sqrt(variance[1])];
+
+    console.log(standardDeviation);
+
+    SVG.append("ellipse")
+      .attr("cx", expectedValues[0]*SIZE/2 + SIZE/2)
+      .attr("cy", expectedValues[1]*SIZE/2 + SIZE/2)
+      .attr("ry", standardDeviation[0]*SIZE)
+      .attr("rx", standardDeviation[1]*SIZE)
+      .attr("fill", partyColors[party])
+      .attr("opacity", 0.5)
+  })
+  
+} 
+
 const SIZE = 500;
 
 let lines = [...Array(11).keys()]; //[-5,-4,-3,-2,-1,0,1,2,3,4,5];
@@ -41,7 +77,7 @@ SVG.selectAll(".horizontal")
 let votes;
 
 
-fetch("/results")
+fetch("https://galtanapi.aiman.space/results")
   .then(data => data.json())
   .then(data => {
     let views = data
@@ -56,10 +92,12 @@ fetch("/results")
         })
       )
 
+    expected(aggregatedViews)
+
     function hideVotes(c) {
       d3.selectAll(`.votes:not(.${c.party})`).transition()
         .duration(200)
-        .attr("opacity", 0.3)
+        .attr("opacity", 0.2)
     }
 
     function reverseHideVotes(c) {
