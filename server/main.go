@@ -28,6 +28,7 @@ func main() {
 		Path("/results").
 		HandlerFunc(postResultHandler(store))
 	router.HandleFunc("/results", getResultsHandler(store))
+	router.HandleFunc("/results/k/{k}", getKNearestNeighbor(store))
 	router.HandleFunc("/healthz", allIsOkey)
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("/static/")))
 	http.ListenAndServe("0.0.0.0:" + port, router)
@@ -40,6 +41,25 @@ func getResultsHandler(store ResultStore) func(http.ResponseWriter, *http.Reques
 			http.Error(writer, err.Error(), http.StatusInternalServerError)
 		}
 		json.NewEncoder(writer).Encode(allData)
+	}
+}
+
+func getKNearestNeighbor(store ResultStore) func(http.ResponseWriter, *http.Request) {
+	return func(writer http.ResponseWriter, request *http.Request) {
+		c := "c"
+		v := "v"
+		nrOfPixels := 500
+		rows := make([][]string, nrOfPixels, nrOfPixels)
+		for _, row := range rows {
+			for i := range row {
+				if i < nrOfPixels/2 {
+					row[i] = v
+				} else {
+					row[i] = c
+				}
+			}
+		}
+		json.NewEncoder(writer).Encode(rows)
 	}
 }
 
