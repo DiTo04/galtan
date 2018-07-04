@@ -6,12 +6,27 @@
   text {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
+  canvas {
+    border: 1px solid black;
+  }
   </style>
 </head>
 <body>
 <div id="viz"></div>
+<canvas id="neighbour" width="600" height="600"></canvas>
 
 <script type="text/javascript">
+
+const partyColors = {
+  "c": "rgb(12, 105, 60)",
+  "l": "rgb(17, 107, 255)",
+  "kd": "rgb(12, 95, 160)",
+  "m": "rgb(87, 190, 234)",
+  "mp": "rgb(85, 160, 74)",
+  "s": "rgb(235, 33, 58)",
+  "sd": "rgb(250, 198, 46)",
+  "v": "rgb(216, 44, 39)"
+}
 
 function expected(data){
   Array.from(new Set(data.map(x => x.party))).forEach(party => {
@@ -24,32 +39,26 @@ function expected(data){
         prev[1] + next.y/amountOfVotes
       ], [0,0]);
 
-    console.log(expectedValues)
-
     let variance = segregatedViews.reduce((prev, next) => 
-      [
-        Math.pow(prev[0] - expectedValues[0], 2)/amountOfVotes,
-        Math.pow(prev[1] - expectedValues[1], 2)/amountOfVotes
-      ], [0,0]);
-
-    console.log(variance);
+    [
+      prev[0] + Math.pow(next.x - expectedValues[0], 2)/amountOfVotes,
+      prev[1] + Math.pow(next.y - expectedValues[1], 2)/amountOfVotes
+    ], [0,0]);
 
     let standardDeviation = [Math.sqrt(variance[0]), Math.sqrt(variance[1])];
-
-    console.log(standardDeviation);
 
     SVG.append("ellipse")
       .attr("cx", expectedValues[0]*SIZE/2 + SIZE/2)
       .attr("cy", expectedValues[1]*SIZE/2 + SIZE/2)
-      .attr("ry", standardDeviation[0]*SIZE)
-      .attr("rx", standardDeviation[1]*SIZE)
+      .attr("rx", standardDeviation[0]*SIZE/2)
+      .attr("ry", standardDeviation[1]*SIZE/2)
       .attr("fill", partyColors[party])
-      .attr("opacity", 0.5)
+      .attr("opacity", 0.1)
   })
   
-} 
+}
 
-const SIZE = 500;
+const SIZE = 600;
 
 let lines = [...Array(11).keys()];
 
@@ -142,19 +151,25 @@ fetch("https://galtanapi.aiman.space/results")
       .on("mouseover", hideVotes)
       .on("mouseout", reverseHideVotes)
 
-    
   })
 
-const partyColors = {
-  "c": "rgb(12, 105, 60)",
-  "l": "rgb(17, 107, 177)",
-  "kd": "rgb(12, 95, 160)",
-  "m": "rgb(87, 190, 234)",
-  "mp": "rgb(85, 160, 74)",
-  "s": "rgb(235, 33, 58)",
-  "sd": "rgb(250, 198, 46)",
-  "v": "rgb(216, 44, 39)"
-}
+let neighbour = document.querySelector("#neighbour");
+
+let ctx = neighbour.getContext("2d");
+
+fetch("https://galtanapi.aiman.space/results/k/5")
+  .then(data => data.json())
+  .then(data => {
+    data.forEach((d, y) => {
+      d.forEach((p, x) => {
+        ctx.fillStyle = partyColors[p];
+        ctx.fillRect(x,y,1,1)
+      })
+    })
+  })
+
+
+
 
 
 
