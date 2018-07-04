@@ -2,6 +2,11 @@
 <head>
   <title></title>
   <script src="https://d3js.org/d3.v5.min.js"></script>
+  <style type="text/css">
+  text {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  </style>
 </head>
 <body>
 <div id="viz"></div>
@@ -46,7 +51,7 @@ function expected(data){
 
 const SIZE = 500;
 
-let lines = [...Array(11).keys()]; //[-5,-4,-3,-2,-1,0,1,2,3,4,5];
+let lines = [...Array(11).keys()];
 
 let SVG = d3.select("#viz")
   .append("svg")
@@ -73,6 +78,26 @@ SVG.selectAll(".horizontal")
   .attr("x2", (d, i) => SIZE/10*i)
   .style("stroke", d => d === 5 ? "#222" : "#888")
   .style("stroke-width", d => d === 5 ? 2 : 1);
+
+SVG.append("text")
+  .attr("x", SIZE/2 + 5)
+  .attr("y", 20)
+  .text("GAL");
+
+SVG.append("text")
+  .attr("x", SIZE/2 + 5)
+  .attr("y", SIZE - 10)
+  .text("TAN")
+
+SVG.append("text")
+  .attr("x", 10)
+  .attr("y", SIZE/2 - 10)
+  .text("V")
+
+SVG.append("text")
+  .attr("x", SIZE - 20)
+  .attr("y", SIZE/2 - 10)
+  .text("H")
 
 let votes;
 
