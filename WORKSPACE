@@ -75,3 +75,9 @@ go_repository(
     commit = "e3702bed27f0d39777b0b37b664b6280e8ef8fbf",
     importpath = "github.com/gorilla/mux",
 )
+
+go_repository(
+    name = "com_github_stretchr_testify",
+    commit = "f35b8ab0b5a2cef36673838d662e249dd9c94686",
+    importpath = "github.com/stretchr/testify",
+)
