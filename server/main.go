@@ -49,15 +49,17 @@ func getKNearestNeighbor(store ResultStore) func(http.ResponseWriter, *http.Requ
 		c := "c"
 		v := "v"
 		nrOfPixels := 500
-		rows := make([][]string, nrOfPixels, nrOfPixels)
-		for _, row := range rows {
-			for i := range row {
+		rows := make([][]string, nrOfPixels)
+		for i := range rows {
+			row := make([]string, nrOfPixels)
+			for j := range row {
 				if i < nrOfPixels/2 {
-					row[i] = v
+					row[j] = v
 				} else {
-					row[i] = c
+					row[j] = c
 				}
 			}
+			rows[i] = row
 		}
 		json.NewEncoder(writer).Encode(rows)
 	}
