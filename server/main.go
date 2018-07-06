@@ -15,7 +15,7 @@ import (
 var (
 	port        = getEnv("PORT", "8080")
 	StorageFile = getEnv("FILE_PATH", "./results.json")
-	nrOfPoints	= 50
+	nrOfPoints	= 600
 	classifier *proccessing.Classifier
 )
 
@@ -73,15 +73,29 @@ func generateBitMap(store ResultStore, k int) ([][]string, error) {
 		classifier = newClassifier
 	}
 	rows := make([][]string, nrOfPoints)
+	outputChannel := make(chan rowWithNr)
 	for i := range rows {
-		row := make([]string, nrOfPoints)
-		for j := range row {
-			point := convertToPoint(i, j)
-			row[j] = classifier.Classify(point, k)
-		}
-		rows[i] = row
+		go classifyBitMapRow(i, k, outputChannel)
+	}
+	for i := 0; i < nrOfPoints; i++ {
+		row := <-outputChannel
+		rows[row.row] = row.data
 	}
 	return rows, nil
+}
+
+type rowWithNr struct {
+	row int
+	data []string
+}
+
+func classifyBitMapRow(i int, k int, output chan<-rowWithNr)  {
+	row := make([]string, nrOfPoints)
+	for j := range row {
+		point := convertToPoint(i, j)
+		row[j] = classifier.Classify(point, k)
+	}
+	output <- rowWithNr{row: i,data: row }
 }
 
 func convertToPoint(i int, j int) proccessing.Point {
@@ -135,7 +149,12 @@ func postResultHandler(resultStore ResultStore) func (w http.ResponseWriter, r *
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+		go updateClassifier(resultStore);
 	}
+}
+
+func updateClassifier(store ResultStore) {
+	classifier, _ = createClassifier(store)
 }
 
 func getEnv(key, fallback string) string {
