@@ -15,7 +15,7 @@ import (
 var (
 	port        = getEnv("PORT", "8080")
 	StorageFile = getEnv("FILE_PATH", "./results.json")
-	nrOfPoints	= 600
+	nrOfPoints	= 100
 	classifier *proccessing.Classifier
 )
 
@@ -99,8 +99,8 @@ func classifyBitMapRow(i int, k int, output chan<-rowWithNr)  {
 }
 
 func convertToPoint(i int, j int) proccessing.Point {
-	x := 2*float64(i)/float64(nrOfPoints) - 1
-	y := 2*float64(j)/float64(nrOfPoints) - 1
+	x := 2*float64(j)/float64(nrOfPoints) - 1
+	y := 2*float64(i)/float64(nrOfPoints) - 1
 	return proccessing.Point{X:x, Y:y}
 }
 
