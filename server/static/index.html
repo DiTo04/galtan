@@ -53,7 +53,7 @@ function expected(data){
       .attr("rx", standardDeviation[0]*SIZE/2)
       .attr("ry", standardDeviation[1]*SIZE/2)
       .attr("fill", partyColors[party])
-      .attr("opacity", 0.1)
+      .attr("opacity", 0.2)
   })
   
 }
@@ -114,6 +114,7 @@ let votes;
 fetch("https://galtanapi.aiman.space/results")
   .then(data => data.json())
   .then(data => {
+    console.log(data)
     let views = data
         .map(answer => answer.political_views)
 

@@ -1,0 +1,31 @@
+--Bakgrund
+
+-Vilka är vi
+Vi (Aiman Josesson och David Tennander) är Två ingenjörer med ett intresse för politik och som gärna hittar ursäkter för att utveckla olika IT-projekt ihop.
+Inför Almedalen 2018 så bestämde vi oss för att utveckla en app som vi använder när vi frågar hur folk i Almedalen placerar dom olika riksdagspartierna på GAL-TAN-skalan.
+
+-Almedalen
+Almedalen, även känt som Politikerveckan, är ett evenemang där politiker samlas i Visby på Gotland för politisk verksamhet och mingel. Almedalstraditionen startade 1968 när Olof Palme höll tal på ett lastbilsflak för folket i Visby, och hålls alltså i år för 50:e gången.
+
+-GAL-TAN
+GAL-TAN är en tvådimensionell skala som man brukar placera politiska partier på. Till skillnad från den klassiska Höger-Vänster-skalan, som i huvudsak tar hänsyn till den ekonomiska politiken, så lägger man till en dimension för GAL kontra TAN som mer försöker prata om partiets värderingar.
+GAL står för Globalt, Alternativt och Liberalt, medan TAN står för Traditionellt, Auktoritärt och Nationalistiskt.
+
+--Metod
+Informationsintagningen har skett genom att vi har gått runt under Almedalen med en app på en iPad där folk via pekskärmen kunnat dra runt och placera dom olika partierna. På samma sätt kan man också placera sig själv på skalan.
+I botten av skärmen så kan man, om man vill, mata in vilket av dom 8 riksdagspartierna man tänker rösta på, eller om man ämnar rösta på ett annat parti.
+Det går även att trycka i om man är medlem av partiet i fråga. Vi har även ett kommentarsfält, som i huuvdsak är ämnad för om man vill lämna sin email-adress ifall man vill ta del av undersökningen i efterhand eller om man röstar på eller tillhör ett parti utöver riksdagspartierna.
+
+--Resultat
+
+--Diskussion
+
+-Felkällor
+
+*Tillfrågade personers förkunskaper om GAL-TAN-skalan varierade en del. När vi förklarade systemet för folk som inte kände igen det så kan vissa felkällor ha uppkommit i hur vi presenterade det.
+
+*Eftersom att vi i dom flesta fallen gick fram till personer och frågade så kan det ha funnits en bias i vilka vi känner att vi kan gå fram och fråga, och vilken typ av människor det är.
+
+*Undersökningen var egentligen tänkt att representera partierna på riksdagsnivå, men många av dom partiaktiva politiker som vi frågade var kommunpolitiker som kan ha varit påverkade av hur partierna på Gotland är.
+
+--Slutsats
