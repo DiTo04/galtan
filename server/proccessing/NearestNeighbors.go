@@ -65,6 +65,9 @@ func mapByLabel(k int, kClosest []*distancePoint) map[string]int {
 	resultMap := make(map[string]int)
 	for i := 0; i < k; i++ {
 		closePoint := kClosest[i]
+		if closePoint == nil{
+			return resultMap
+		}
 		resultMap[closePoint.label] = resultMap[closePoint.label] + 1
 	}
 	return resultMap

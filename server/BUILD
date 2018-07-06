@@ -1,4 +1,4 @@
-load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library", "go_test")
 load("@io_bazel_rules_docker//go:image.bzl", "go_image")
 load("@k8s_deploy//:defaults.bzl", "k8s_deploy")
 load("@bazel_tools//tools/build_defs/pkg:pkg.bzl", "pkg_tar")
@@ -11,6 +11,7 @@ go_library(
     visibility = ["//visibility:private"],
     deps = [
         "//server/data:go_default_library",
+        "//server/proccessing:go_default_library",
         "@com_github_gorilla_mux//:go_default_library",
     ],
 )
@@ -49,4 +50,11 @@ k8s_deploy(
         "gcr.io/spexflix/galtan:dev": ":image",
     },
     template = ":k8s.yaml",
+)
+
+go_test(
+    name = "go_default_test",
+    srcs = ["main_test.go"],
+    embed = [":go_default_library"],
+    deps = ["//server/data:go_default_library"],
 )

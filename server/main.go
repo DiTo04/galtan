@@ -8,11 +8,15 @@ import (
 	"os"
 	"time"
 	"github.com/DiTo04/galtan/server/data"
+	"github.com/DiTo04/galtan/server/proccessing"
+	"strconv"
 )
 
 var (
 	port        = getEnv("PORT", "8080")
 	StorageFile = getEnv("FILE_PATH", "./results.json")
+	nrOfPoints	= 50
+	classifier *proccessing.Classifier
 )
 
 type ResultStore interface {
@@ -46,23 +50,75 @@ func getResultsHandler(store ResultStore) func(http.ResponseWriter, *http.Reques
 
 func getKNearestNeighbor(store ResultStore) func(http.ResponseWriter, *http.Request) {
 	return func(writer http.ResponseWriter, request *http.Request) {
-		c := "c"
-		v := "v"
-		nrOfPixels := 500
-		rows := make([][]string, nrOfPixels)
-		for i := range rows {
-			row := make([]string, nrOfPixels)
-			for j := range row {
-				if i < nrOfPixels/2 {
-					row[j] = v
-				} else {
-					row[j] = c
-				}
-			}
-			rows[i] = row
+		k, err := strconv.Atoi(mux.Vars(request)["k"])
+		if err != nil {
+			http.Error(writer, err.Error(), http.StatusBadRequest)
+			return
+		}
+		rows, err := generateBitMap(store, k)
+		if err != nil {
+			http.Error(writer, err.Error(), http.StatusInternalServerError)
+			return
 		}
 		json.NewEncoder(writer).Encode(rows)
 	}
+}
+
+func generateBitMap(store ResultStore, k int) ([][]string, error) {
+	if classifier == nil {
+		newClassifier, err := createClassifier(store)
+		if err != nil {
+			return nil, err
+		}
+		classifier = newClassifier
+	}
+	rows := make([][]string, nrOfPoints)
+	for i := range rows {
+		row := make([]string, nrOfPoints)
+		for j := range row {
+			point := convertToPoint(i, j)
+			row[j] = classifier.Classify(point, k)
+		}
+		rows[i] = row
+	}
+	return rows, nil
+}
+
+func convertToPoint(i int, j int) proccessing.Point {
+	x := 2*float64(i)/float64(nrOfPoints) - 1
+	y := 2*float64(j)/float64(nrOfPoints) - 1
+	return proccessing.Point{X:x, Y:y}
+}
+
+func createClassifier(store ResultStore) (*proccessing.Classifier, error) {
+	points, err := store.GetAll();
+	if err != nil {
+		return nil, err
+	}
+	labeledPoints := convertPoints(points)
+	return &proccessing.Classifier{Data: labeledPoints}, nil
+}
+
+func convertPoints(payloads []data.Payload) []proccessing.LabeledPoint {
+	result := make([]proccessing.LabeledPoint, len(payloads)*9)
+	length := len(payloads[0].PoliticalViews)
+	for i, point := range payloads {
+		result =  append(result[:i*length],convertPoint(point)...)
+	}
+	return result
+}
+
+func convertPoint(payload data.Payload) []proccessing.LabeledPoint {
+	result := make([]proccessing.LabeledPoint, len(payload.PoliticalViews))
+	i := 0
+	for party, view := range payload.PoliticalViews {
+		if party == "person"{
+			continue
+		}
+		result[i] = proccessing.LabeledPoint{Label: party, Point: proccessing.Point{X: view.RightLeft, Y:view.GalTan}}
+		i++
+	}
+	return result
 }
 
 func allIsOkey(writer http.ResponseWriter, _ *http.Request) {

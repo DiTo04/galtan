@@ -6,8 +6,8 @@ import (
 )
 
 type PoliticalView struct {
-	RightLeft float32 `json:"right_left"`
-	GalTan    float32 `json:"gal_tan"`
+	RightLeft float64 `json:"right_left"`
+	GalTan    float64 `json:"gal_tan"`
 }
 
 type Payload struct {
