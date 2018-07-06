@@ -6,16 +6,39 @@
   text {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   }
+
+  .graphContainer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .graphContainer * {
+    margin: 1vh;
+  }
+
   canvas {
     border: 1px solid black;
   }
   </style>
 </head>
 <body>
-<div id="viz"></div>
-<canvas id="neighbour" width="600" height="600"></canvas>
+  <div class="graphContainer">
+    <div id="viz"></div>
+
+  </div>
+  <div class="graphContainer">
+    <div id="bubbles"></div>
+  </div>
+  <div class="graphContainer">
+    <canvas id="neighbour" width="600" height="600"></canvas>
+  </div>
+
 
 <script type="text/javascript">
+
+
+let votes;
+const SIZE = 600;
 
 const partyColors = {
   "c": "rgb(12, 105, 60)",
@@ -28,7 +51,7 @@ const partyColors = {
   "v": "rgb(216, 44, 39)"
 }
 
-function expected(data){
+function expected(data, selector){
   Array.from(new Set(data.map(x => x.party))).forEach(party => {
     let segregatedViews = data
       .filter(v => v.party === party);
@@ -47,68 +70,73 @@ function expected(data){
 
     let standardDeviation = [Math.sqrt(variance[0]), Math.sqrt(variance[1])];
 
-    SVG.append("ellipse")
+    selector.append("ellipse")
       .attr("cx", expectedValues[0]*SIZE/2 + SIZE/2)
       .attr("cy", expectedValues[1]*SIZE/2 + SIZE/2)
       .attr("rx", standardDeviation[0]*SIZE/2)
       .attr("ry", standardDeviation[1]*SIZE/2)
       .attr("fill", partyColors[party])
-      .attr("opacity", 0.2)
+      .attr("opacity", 0.5)
   })
   
 }
 
-const SIZE = 600;
+function createGrid(id) {
+  const lines = [...Array(11).keys()];
 
-let lines = [...Array(11).keys()];
+  let selector = d3.select(id)
+    .append("svg")
+    .attr("width", SIZE)
+    .attr("height", SIZE)
+    .style("background-color", "#ffc");
 
-let SVG = d3.select("#viz")
-  .append("svg")
-  .attr("width", SIZE)
-  .attr("height", SIZE)
-  .style("background-color", "#ffc");
+  selector.selectAll(".horizontal")
+    .data(lines)
+    .enter().append("line")
+    .attr("x1", 0)
+    .attr("x2", SIZE)
+    .attr("y1", (d, i) => SIZE/10*i)
+    .attr("y2", (d, i) => SIZE/10*i)
+    .style("stroke", d => d === 5 ? "#222" : "#888")
+    .style("stroke-width", d => d === 5 ? 2 : 1);
 
-SVG.selectAll(".horizontal")
-  .data(lines)
-  .enter().append("line")
-  .attr("x1", 0)
-  .attr("x2", SIZE)
-  .attr("y1", (d, i) => SIZE/10*i)
-  .attr("y2", (d, i) => SIZE/10*i)
-  .style("stroke", d => d === 5 ? "#222" : "#888")
-  .style("stroke-width", d => d === 5 ? 2 : 1);
+  selector.selectAll(".horizontal")
+    .data(lines)
+    .enter().append("line")
+    .attr("y1", 0)
+    .attr("y2", SIZE)
+    .attr("x1", (d, i) => SIZE/10*i)
+    .attr("x2", (d, i) => SIZE/10*i)
+    .style("stroke", d => d === 5 ? "#222" : "#888")
+    .style("stroke-width", d => d === 5 ? 2 : 1);
 
-SVG.selectAll(".horizontal")
-  .data(lines)
-  .enter().append("line")
-  .attr("y1", 0)
-  .attr("y2", SIZE)
-  .attr("x1", (d, i) => SIZE/10*i)
-  .attr("x2", (d, i) => SIZE/10*i)
-  .style("stroke", d => d === 5 ? "#222" : "#888")
-  .style("stroke-width", d => d === 5 ? 2 : 1);
+  selector.append("text")
+    .attr("x", SIZE/2 + 5)
+    .attr("y", 20)
+    .text("GAL");
 
-SVG.append("text")
-  .attr("x", SIZE/2 + 5)
-  .attr("y", 20)
-  .text("GAL");
+  selector.append("text")
+    .attr("x", SIZE/2 + 5)
+    .attr("y", SIZE - 10)
+    .text("TAN")
 
-SVG.append("text")
-  .attr("x", SIZE/2 + 5)
-  .attr("y", SIZE - 10)
-  .text("TAN")
+  selector.append("text")
+    .attr("x", 10)
+    .attr("y", SIZE/2 - 10)
+    .text("V")
 
-SVG.append("text")
-  .attr("x", 10)
-  .attr("y", SIZE/2 - 10)
-  .text("V")
+  selector.append("text")
+    .attr("x", SIZE - 20)
+    .attr("y", SIZE/2 - 10)
+    .text("H")
 
-SVG.append("text")
-  .attr("x", SIZE - 20)
-  .attr("y", SIZE/2 - 10)
-  .text("H")
+  return selector;
+}
 
-let votes;
+
+let viz = createGrid("#viz");
+let bubbles = createGrid("#bubbles");
+
 
 
 fetch("https://galtanapi.aiman.space/results")
@@ -127,7 +155,7 @@ fetch("https://galtanapi.aiman.space/results")
         })
       )
 
-    expected(aggregatedViews)
+    expected(aggregatedViews, bubbles);
 
     function hideVotes(c) {
       d3.selectAll(`.votes:not(.${c.party})`).transition()
@@ -141,7 +169,7 @@ fetch("https://galtanapi.aiman.space/results")
         .attr("opacity", 1)
     }
 
-    votes = SVG.selectAll(".votes")
+    votes = viz.selectAll(".votes")
       .data(aggregatedViews)
       .enter().append("circle")
       .attr("r", 4)
@@ -164,7 +192,7 @@ fetch("https://galtanapi.aiman.space/results/k/5")
     data.forEach((d, y) => {
       d.forEach((p, x) => {
         ctx.fillStyle = partyColors[p];
-        ctx.fillRect(x,y,1,1)
+        ctx.fillRect(x*5,y*5,5,5)
       })
     })
   })
