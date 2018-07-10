@@ -2,6 +2,7 @@
 <head>
   <title></title>
   <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="math.min.js" type="text/javascript"></script>
   <style type="text/css">
   text {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -12,22 +13,70 @@
     justify-content: center;
   }
 
-  .graphContainer * {
+  .graphContainer div {
     margin: 1vh;
   }
 
-  canvas {
-    border: 1px solid black;
+  .checkboxContainer {
+    display: flex;
+  }
+
+  .logoContainer {
+    display: flex;
+  }
+
+  .logoContainer img {
+    height: 50px;
+    width: auto;
   }
   </style>
 </head>
 <body>
   <div class="graphContainer">
     <div id="viz"></div>
-
   </div>
   <div class="graphContainer">
-    <div id="bubbles"></div>
+    <div class="checkboxContainer">
+      <div>
+        <input type="checkbox" id="values" name="feature" value="values" checked />
+        <label for="values">Värden</label>
+      </div>
+      <div>
+        <input type="checkbox" id="expected" name="feature" value="expected" />
+        <label for="expected">Bubblor</label>
+      </div>
+    </div>
+  </div>
+  <div class="graphContainer">
+    <div id="relationship"></div>
+  </div>
+  <div class="graphContainer">
+    <div class="logoContainer">
+      <div id="c_logo">
+        <img src="logos/c.png">
+      </div>
+      <div id="l_logo">
+        <img src="logos/l.png">
+      </div>
+      <div id="kd_logo">
+        <img src="logos/kd.png">
+      </div>
+      <div id="m_logo">
+        <img src="logos/m.png">
+      </div>
+      <div id="mp_logo">
+        <img src="logos/mp.png">
+      </div>
+      <div id="s_logo">
+        <img src="logos/s.png">
+      </div>
+      <div id="sd_logo">
+        <img src="logos/sd.png">
+      </div>
+      <div id="v_logo">
+        <img src="logos/v.png">
+      </div>
+    </div>
   </div>
   <div class="graphContainer">
     <canvas id="neighbour" width="600" height="600"></canvas>
@@ -36,8 +85,9 @@
 
 <script type="text/javascript">
 
-
+let rawData;
 let votes;
+let relationshipVotes;
 const SIZE = 600;
 
 const partyColors = {
@@ -50,6 +100,18 @@ const partyColors = {
   "sd": "rgb(250, 198, 46)",
   "v": "rgb(216, 44, 39)"
 }
+
+document.querySelector("#c_logo").onclick = () => showRelationship("c", rawData);
+document.querySelector("#l_logo").onclick = () => showRelationship("l", rawData);
+document.querySelector("#kd_logo").onclick = () => showRelationship("kd", rawData);
+document.querySelector("#m_logo").onclick = () => showRelationship("m", rawData);
+document.querySelector("#mp_logo").onclick = () => showRelationship("mp", rawData);
+document.querySelector("#s_logo").onclick = () => showRelationship("s", rawData);
+document.querySelector("#sd_logo").onclick = () => showRelationship("sd", rawData);
+document.querySelector("#v_logo").onclick = () => showRelationship("v", rawData);
+
+let valuesBoxSelected = document.querySelector("#values").checked ? 1 : 0;
+let bubblesBoxSelected = document.querySelector("#expected").checked ? 1 : 0;
 
 function expected(data, selector){
   Array.from(new Set(data.map(x => x.party))).forEach(party => {
@@ -71,14 +133,49 @@ function expected(data, selector){
     let standardDeviation = [Math.sqrt(variance[0]), Math.sqrt(variance[1])];
 
     selector.append("ellipse")
+      .attr("class", "bubble")
       .attr("cx", expectedValues[0]*SIZE/2 + SIZE/2)
       .attr("cy", expectedValues[1]*SIZE/2 + SIZE/2)
       .attr("rx", standardDeviation[0]*SIZE/2)
       .attr("ry", standardDeviation[1]*SIZE/2)
       .attr("fill", partyColors[party])
-      .attr("opacity", 0.5)
+      .attr("opacity", bubblesBoxSelected*0.5)
   })
   
+}
+
+function showRelationship(party, data) {
+  let views = data
+    .map(answer => {
+      let newAnswer = {};
+      let centerVote = answer.political_views[party];
+      for (let key in answer.political_views) {
+        let right_left = answer.political_views[key].right_left - centerVote.right_left;
+        let gal_tan = answer.political_views[key].gal_tan - centerVote.gal_tan;
+        newAnswer[key] = {right_left, gal_tan};
+      }
+      return newAnswer;
+    })
+  console.log(views);
+
+  let aggregatedViews = views
+    .reduce((prev, next) => prev.concat(Object.entries(next)), [])
+    .map(d => (
+      { party: d[0],
+        x: d[1].right_left,
+        y: d[1].gal_tan,
+        comment: d[1].comment,
+        userChoice: d[1].userChoice,
+        active: d[1].active
+      })
+    )
+
+  relationship.selectAll(".relationshipVotes")
+    .data(aggregatedViews)
+    .transition()
+    .duration(1000)
+    .attr("cx", c => c.x*SIZE/4 + SIZE/2)
+    .attr("cy", c => c.y*SIZE/4 + SIZE/2)
 }
 
 function createGrid(id) {
@@ -133,41 +230,66 @@ function createGrid(id) {
   return selector;
 }
 
+function checkBoxes() {
+  valuesBoxSelected = document.querySelector("#values").checked;
+  bubblesBoxSelected = document.querySelector("#expected").checked;
+  votes
+    .attr("opacity", () => valuesBoxSelected ? 1 : 0)
+
+  d3.selectAll(".bubble")
+    .attr("opacity", () => bubblesBoxSelected ? 0.5 : 0)
+}
+
+function hideVotes(query) {
+  d3.selectAll(query).transition()
+    .duration(200)
+    .attr("opacity", valuesBoxSelected*0.2)
+}
+
+function reverseHideVotes(query) {
+  d3.selectAll(query).transition()
+    .duration(200)
+    .attr("opacity", valuesBoxSelected*1)
+}
+
+document.querySelector(".checkboxContainer").onclick = checkBoxes;
 
 let viz = createGrid("#viz");
-let bubbles = createGrid("#bubbles");
 
+let relationship = createGrid("#relationship");
 
 
 fetch("https://galtanapi.aiman.space/results")
   .then(data => data.json())
   .then(data => {
     console.log(data)
+    rawData = data;
     let views = data
-        .map(answer => answer.political_views)
+        .map(answer => {
+          let politicalData = answer.political_views;
+          Object.keys(politicalData).forEach(pd => {
+            politicalData[pd].comment = answer.comment;
+            politicalData[pd].userChoice = answer.user_choice;
+            politicalData[pd].active = answer.active;
+          })
+          return politicalData;
+        })
 
     let aggregatedViews = views
       .reduce((prev, next) => prev.concat(Object.entries(next)), [])
       .map(d => (
         { party: d[0],
           x: d[1].right_left,
-          y: d[1].gal_tan
+          y: d[1].gal_tan,
+          comment: d[1].comment,
+          userChoice: d[1].userChoice,
+          active: d[1].active
         })
       )
 
-    expected(aggregatedViews, bubbles);
+    //console.log(aggregatedViews)
 
-    function hideVotes(c) {
-      d3.selectAll(`.votes:not(.${c.party})`).transition()
-        .duration(200)
-        .attr("opacity", 0.2)
-    }
-
-    function reverseHideVotes(c) {
-      d3.selectAll(`.votes`).transition()
-        .duration(200)
-        .attr("opacity", 1)
-    }
+    expected(aggregatedViews, viz);
 
     votes = viz.selectAll(".votes")
       .data(aggregatedViews)
@@ -177,8 +299,20 @@ fetch("https://galtanapi.aiman.space/results")
       .attr("cy", c => c.y*SIZE/2 + SIZE/2)
       .attr("fill", c => partyColors[c.party])
       .attr("class", c => c.party + " votes")
-      .on("mouseover", hideVotes)
-      .on("mouseout", reverseHideVotes)
+      .on("mouseover", c => hideVotes(`.votes:not(.${c.party})`))
+      .on("mouseout", () => reverseHideVotes(".votes"))
+
+    relationshipVotes = relationship.selectAll(".relationshipVotes")
+      .data(aggregatedViews)
+      .enter().append("circle")
+      .attr("r", 4)
+      .attr("cx", c => c.x*SIZE/2 + SIZE/2)
+      .attr("cy", c => c.y*SIZE/2 + SIZE/2)
+      .attr("fill", c => partyColors[c.party])
+      .attr("class", c => c.party + " relationshipVotes")
+      .on("mouseover", c => hideVotes(`.relationshipVotes:not(.${c.party})`))
+      .on("mouseout", () => reverseHideVotes(".relationshipVotes"))
+      .on("click", c => showRelationship(c.party, rawData))
 
   })
 
@@ -196,8 +330,6 @@ fetch("https://galtanapi.aiman.space/results/k/10")
       })
     })
   })
-
-
 
 
 
