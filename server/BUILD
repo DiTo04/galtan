@@ -36,6 +36,7 @@ pkg_tar(
         "//server/static",
     ],
     package_dir = "/static/",
+    strip_prefix = "./static",
 )
 
 container_image(

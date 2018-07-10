@@ -1,5 +1,5 @@
 filegroup(
     name = "static",
-    srcs = glob(["*"]),
+    srcs = glob(["**/*"]),
     visibility = ["//server:__subpackages__"],
 )
